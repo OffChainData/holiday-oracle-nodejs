@@ -1,0 +1,23 @@
+{
+  "name": "holiday-oracle",
+  "version": "0.0.1",
+  "description": "The Holiday Oracle Node library provides convenient access to the global holiday API provided by Off Chain Data.",
+  "main": "index.js",
+  "author": "Off Chain Data<hello@offchaindata.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/OffChainData/holiday-oracle-nodejs"
+  },
+  "homepage": "https://github.com/OffChainData/holiday-oracle-nodejs",
+  "keywords": ["global holidays", "federal holidays", "public holidays", "bank holidays", "holidays api"],
+  "dependencies": {
+    "axios": "^0.19.2"
+  },
+  "devDependencies": {
+    "jest": "^25.1.0"
+  },
+  "scripts": {
+    "test": "jest test"
+  }
+}
