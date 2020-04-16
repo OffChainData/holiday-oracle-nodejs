@@ -1,10 +1,17 @@
+/**
+ * Copyright (c) Off Chain Data
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
 const axios = require("axios");
-const baseUrl = "https://offchaindata.com/api/v1"
+const baseUrl = "https://holidayoracle.io/api/v1"
 const InvalidDateOrTimestampException =  require("./InvalidDateOrTimestampException")
 const InvalidCountryException= require('./InvalidCountryException')
 const CredentialsMissingException= require('./CredentialsMissingException')
 const InvalidCredentialsException= require('./InvalidCredentialsException')
-class OffChainApi{
+class HolidayOracleClient{
     /**
      * 
      * @param {string} apikey  The API KEy of the method
@@ -64,9 +71,6 @@ class OffChainApi{
                 }
             })
         })
-         
-
-
     }
     /**
      * 
@@ -86,12 +90,13 @@ class OffChainApi{
         return [year, month, day].join('-');
     }
     /**
+     * Call the date end point https://holidayoracle.io/docs/index.html#date
      * 
      * @param {String |Date | Number} date_or_timestamp  The date or timestamp to be queried
      * @param {String} country The country for which the date is to be queried
      * @param {Object} options Any additional options
      */
-    date(date_or_timestamp,country,  options = null){
+    date(date_or_timestamp, country, options = null){
         const numericRegex = /^\d+$/
         const dateFormatRgex = /(\d){4}-\d{2}-\d{2}/
         const dType = typeof date_or_timestamp;
@@ -126,6 +131,7 @@ class OffChainApi{
         
     }
     /**
+     * Call the holidays end point https://holidayoracle.io/docs/index.html#holidays
      * 
      * @param {String} year  The year for which holidays are needed
      * @param {String} country The country for which holidays are needed
@@ -154,15 +160,51 @@ class OffChainApi{
         return this.___request('date/holidays',params)
     }
     /**
-     * Get locations supported by the api
+     * Call the locations end point https://holidayoracle.io/docs/index.html#locations
+     * 
      */
-
     locations() {
-     
         return this.___request('date/locations')
     }
+    /**
+     * Call the business-days end point https://holidayoracle.io/docs/index.html#business-days
+     * 
+     * @param {String | Date} date1 Start date
+     * @param {String | Date} date2 End date
+     * @param {String} country The country for which the date is to be queried
+     * @param {Object} options Any additional options
+     */
+    businessDays(date1, date2, country, options = null) {
+        const dateFormatRgex = /(\d){4}-\d{2}-\d{2}/
+        
+        if(typeof date1 == 'string' && !dateFormatRgex.test(date1)) {
+            throw new InvalidDateOrTimestampException("Invalid Date Format: Must be in the format: YYYY-MM-DD ")
+        }
+        
+        if(typeof date2 == 'string' && !dateFormatRgex.test(date2)) {
+            throw new InvalidDateOrTimestampException("Invalid Date Format: Must be in the format: YYYY-MM-DD ")
+        }
 
+        if(!country) {
+            throw new InvalidCountryException("Country is required")
+        }
+        
+        const params= options || {}
+        params['date1'] = date1;
+        if(date1.constructor.name === "Date") {
+            params['date1'] = this.formatDate(date1);
+        }
+
+        params['date2'] = date2;
+        if(date2.constructor.name === "Date") {
+            params['date2'] = this.formatDate(date2);
+        }
+        
+        params['country'] = country
+        return this.___request('date/business-days', params)
+        
+    }
 
 }
 
-module.exports=  OffChainApi;
+module.exports = HolidayOracleClient;
