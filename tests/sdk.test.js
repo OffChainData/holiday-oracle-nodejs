@@ -82,9 +82,17 @@ describe("SDK", ()=>{
             })
             return expect(tester.holidays(2006, "AU")).resolves.toEqual(arr)
         })
+    })
 
-        
-    
-
+    describe("Business Days Method", ()=>{
+        test("it throw an exception for invalid dates ", ()=>{
+            const tester = new Sdk("abcd");
+            expect(()=>{ tester.businessDays("XXXX", "XXXX", "AU")}).toThrow(InvalidDateException);
+        })
+        test("it throw an exception for invalid country ", ()=>{
+            const tester = new Sdk("abcd");
+            expect(()=>{ tester.businessDays("2020-01-01", "2020-02-01", 10)}).toThrow(InvalidCountryException);
+            
+        })
     })
 })

@@ -1,6 +1,6 @@
 {
   "name": "holiday-oracle",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "description": "The Holiday Oracle Node library provides convenient access to the global holiday API provided by Off Chain Data.",
   "main": "index.js",
   "author": "Off Chain Data<hello@offchaindata.com>",

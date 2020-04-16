@@ -148,8 +148,7 @@ class HolidayOracleClient{
             throw new InvalidDateOrTimestampException("Year should be a number with four digits")
         }
        
-
-        if( typeof country	!='string'){
+        if(typeof country != 'string'){
             throw new InvalidCountryException("Country must be a string")
         }
 
@@ -189,6 +188,10 @@ class HolidayOracleClient{
             throw new InvalidCountryException("Country is required")
         }
         
+        if(typeof country != 'string'){
+            throw new InvalidCountryException("Country must be a string")
+        }
+
         const params= options || {}
         params['date1'] = date1;
         if(date1.constructor.name === "Date") {
